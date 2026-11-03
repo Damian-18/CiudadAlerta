@@ -18,9 +18,15 @@ class MockNetworkInterceptor(
     private val lock = Any()
     private val reports by lazy { loadReports().associateBy { it.folio }.toMutableMap() }
     private data class Account(val email: String, val password: String, val nombre: String, val role: UserRole)
+    private val demoAccounts = listOf(
+        Account("ciudadano@comunidad.mx", "Demo1234", "Juan Ciudadano", UserRole.CIUDADANO),
+        Account("admin@ciudadalerta.mx", "Demo1234", "Administración", UserRole.ADMIN)
+    )
     private val accounts by lazy {
         val saved = loadAccounts()?.let { gson.fromJson(it, Array<Account>::class.java).toList() }.orEmpty()
-        (listOf(Account("ciudadano@comunidad.mx", "Demo1234", "Juan Ciudadano", UserRole.CIUDADANO), Account("admin@ciudadalerta.mx", "Demo1234", "Administración", UserRole.ADMIN)) + saved).associateBy { it.email }.toMutableMap()
+        // Reserved demo identities take precedence over passwords saved by older versions.
+        // Registered accounts keep their persisted credentials and recovery support.
+        (saved + demoAccounts).associateBy { it.email }.toMutableMap()
     }
     override fun intercept(chain: Interceptor.Chain): Response = synchronized(lock) {
         val request = chain.request()
@@ -35,6 +41,9 @@ class MockNetworkInterceptor(
                     val dto = gson.fromJson(request.bodyText(), RecoveryDto::class.java)
                     val email = dto.email.trim().lowercase()
                     val account = accounts[email] ?: error("No existe una cuenta con ese correo")
+                    require(demoAccounts.none { it.email == email }) {
+                        "Las cuentas demo usan la contraseña fija Demo1234. Crea una cuenta ciudadana para probar la recuperación."
+                    }
                     require(dto.newPassword.length >= 8) { "La contraseña requiere al menos 8 caracteres" }
                     accounts[email] = account.copy(password = dto.newPassword)
                     saveAccounts(gson.toJson(accounts.values))
