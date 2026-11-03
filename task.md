@@ -23,6 +23,14 @@ Esta revisión fue de lectura del código y de los resultados existentes. No se 
 
 ### C2. Conservar la utilidad de los accesos rápidos Demo Ciudadano y Demo Admin
 
+Responsable: fix/C2-accesos-demo (identificador temporal).
+Rama: fix/C2-accesos-demo, clon separado de origin/master.
+Estado: en curso.
+Última actualización: 2026-11-03.
+Archivos previstos: MockNetworkInterceptor.kt, LoginScreen.kt, RecoveryScreen.kt, DemoAccessTest.kt y documentos de seguimiento.
+Siguiente paso: reservar las cuentas demo con acceso fijo, comprobar recuperación y rehidratación de cuentas; conservar recuperación para cuentas registradas.
+Coordinación: el usuario informa de otro colaborador en main; esta rama no modifica ni integra su trabajo.
+
 - [ ] Definir e implementar un comportamiento consistente entre recuperación de contraseña y acceso demo.
 - Evidencia: AuthViewModel.kt usa siempre Demo1234 en loginDemoCiudadano/loginDemoAdmin. MockNetworkInterceptor.kt permite cambiar y persistir la contraseña de esas mismas cuentas mediante recovery.
 - Consecuencia: después de cambiar la contraseña demo, el botón rápido correspondiente deja de autenticar; el formulario normal con la contraseña nueva sí funciona.

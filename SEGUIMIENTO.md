@@ -1,10 +1,10 @@
 # Ciudad Alerta — continuidad
 Fuente funcional: app/Specs_CiudadAlerta.md (leída completa). Paquete: com.example.proyectofinal.
 ## Estado rápido
-**COMPLETADO Y VERIFICADO — 2026-11-02.** Implementación directa en este proyecto.
-No hay fases de implementación pendientes. El siguiente agente puede comenzar por este resumen; la bitácora inferior documenta los checkpoints anteriores, no tareas todavía abiertas.
+**Implementación base disponible; aceptación pendiente — 2026-11-03.** Las cinco fases están implementadas; task.md registra C1, C2, D1 y V1–V3 todavía abiertos.
+C2 se trabaja en un clon separado, rama fix/C2-accesos-demo. El siguiente paso es verificar acceso demo y recuperación de cuentas registradas. Los resultados del 2026-11-02 que siguen son históricos, no pruebas repetidas en este equipo.
 
-### Resultado final comprobado
+### Resultado histórico comprobado (2026-11-02)
 - `assembleDebug`: correcto. APK: `app/build/outputs/apk/debug/app-debug.apk`.
 - `testDebugUnitTest`: 5 pruebas aprobadas (4 de negocio/API + prueba base).
 - `connectedDebugAndroidTest`: 3 pruebas aprobadas en Pixel_10_Pro, Android API 37 (Compose, repositorios/Room y contexto de app).
