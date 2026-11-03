@@ -26,6 +26,7 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
         TextButton(onClick = recovery, enabled = !state.busy) { Text("Restablecer contraseña") }
         HorizontalDivider()
         Text("Explorar la demostración", style = MaterialTheme.typography.titleMedium)
+        Text("Las cuentas demo usan la contraseña fija Demo1234, incluso si la cambiaste en una versión anterior. Para usar tu propia contraseña, crea una cuenta ciudadana.", style = MaterialTheme.typography.bodySmall)
         OutlinedButton(onClick = vm::loginDemoCiudadano, enabled = !state.busy, modifier = Modifier.fillMaxWidth()) { Text("Demo Ciudadano") }
         OutlinedButton(onClick = vm::loginDemoAdmin, enabled = !state.busy, modifier = Modifier.fillMaxWidth()) { Text("Demo Admin") }
         Text("Para incidencias comunitarias no urgentes.", style = MaterialTheme.typography.bodySmall)

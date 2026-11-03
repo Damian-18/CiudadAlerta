@@ -2,7 +2,7 @@
 Fuente funcional: app/Specs_CiudadAlerta.md (leída completa). Paquete: com.example.proyectofinal.
 ## Estado rápido
 **Implementación base disponible; aceptación pendiente — 2026-11-03.** Las cinco fases están implementadas; task.md registra C1, C2, D1 y V1–V3 todavía abiertos.
-C2 se trabaja en un clon separado, rama fix/C2-accesos-demo. El siguiente paso es verificar acceso demo y recuperación de cuentas registradas. Los resultados del 2026-11-02 que siguen son históricos, no pruebas repetidas en este equipo.
+C2 implementado en un clon separado, rama fix/C2-accesos-demo: APK compilado, 7 pruebas JVM aprobadas y lint con 0 errores / 26 advertencias. Falta aceptación de los botones en Android tras reiniciar el proceso. Los resultados del 2026-11-02 que siguen son históricos; la ejecución nueva se detalla al final.
 
 ### Resultado histórico comprobado (2026-11-02)
 - `assembleDebug`: correcto. APK: `app/build/outputs/apk/debug/app-debug.apk`.
@@ -79,5 +79,23 @@ Pruebas unitarias de límites, matriz de estados, verbos HTTP, registro/login/re
 ### Resultados antes de cierre
 Fases 1, 2, 3 y 4 compiladas individualmente. assembleDebug + testDebugUnitTest + lintDebug + assembleDebugAndroidTest: BUILD SUCCESSFUL. 5 pruebas JVM, 0 fallos. connectedDebugAndroidTest en Pixel_10_Pro API 37: 3 pruebas, 0 fallos. Últimos ajustes: catálogo centralizado, eliminación de TODO de plantilla, cancelación de carga de foto y prueba UI repetible que solo modifica su propio reporte. Se repiten las comprobaciones afectadas.
 
-## Cierre
+## Cierre histórico (2026-11-02)
 Última ejecución conjunta: `:app:assembleDebug :app:testDebugUnitTest :app:lintDebug :app:connectedDebugAndroidTest` — BUILD SUCCESSFUL, 22 s, 87 tareas (23 ejecutadas, 64 actualizadas). La prueba Compose final crea y elimina su propio reporte; comprueba PENDIENTE -> EN_PROCESO -> RESUELTO, evidencia e historial. No quedan bloqueos.
+
+## 2026-11-03 — C2 Accesos demo estables
+
+Responsable y rama: fix/C2-accesos-demo (identificador temporal), clon separado desde origin/master d7491c9. El usuario informa de otro colaborador en main; no se modificó su checkout ni se integró esta rama.
+
+Qué cambió y por qué: las cuentas demo quedan reservadas con Demo1234, incluso al cargar contraseñas distintas persistidas por versiones anteriores. El endpoint de recuperación rechaza cambios de esas dos cuentas con un mensaje explícito. Las cuentas registradas mantienen sus contraseñas y recuperación. Login y recuperación explican esta política.
+
+Archivos: MockNetworkInterceptor.kt, LoginScreen.kt, RecoveryScreen.kt, nueva DemoAccessTest.kt, task.md y SEGUIMIENTO.md. Sin cambios de esquema, dependencias ni contratos públicos.
+
+Verificación ejecutada:
+- Antes de la corrección: `:app:testDebugUnitTest --tests com.example.proyectofinal.DemoAccessTest` terminó con 2 pruebas fallidas. La recuperación demo devolvía 200 en vez de rechazo y las credenciales demo fijas fallaban al cargar contraseñas anteriores.
+- Después: `:app:assembleDebug :app:testDebugUnitTest :app:lintDebug --console=plain` terminó BUILD SUCCESSFUL en 2 min 18 s; 7 pruebas JVM, 0 fallos; lint 0 errores y 26 advertencias. JDK 25, compileSdk 37; se conservó la configuración existente.
+- Las regresiones cubren ambos roles demo, correo normalizado, rechazo sin escritura de cuentas, contraseñas anteriores, recuperación de una cuenta registrada y recreación del interceptor con datos persistidos.
+- `git diff --check`: sin errores. `adb devices`: sin dispositivos conectados; no se ejecutó connectedDebugAndroidTest.
+
+Estado: implementado pendiente de validar. Las pruebas JVM de rehidratación no sustituyen pulsar los botones ni reiniciar un proceso Android real.
+Próximo paso: en un emulador o teléfono, intentar recuperar ambas cuentas demo, volver al login, pulsar cada acceso rápido y repetir después de cerrar/reabrir el proceso. Verificar también recuperación de una cuenta propia. C1, D1 y V1–V3 quedan fuera de esta entrega.
+Commits: 3220b69 registra el alcance; la corrección y esta evidencia forman el commit siguiente de fix/C2-accesos-demo.

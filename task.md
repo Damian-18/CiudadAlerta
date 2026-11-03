@@ -1,14 +1,14 @@
 # Pendientes de Ciudad Alerta
 
-Fecha de revisión: 2026-11-02.
+Fecha de revisión inicial: 2026-11-02. Actualización C2: 2026-11-03.
 Proyecto: C:\Users\Damian\AndroidStudioProjects\CiudadAlerta
 Fuente de requisitos: app/Specs_CiudadAlerta.md y las instrucciones originales del usuario.
 
 ## Resumen para continuar
 
-Las cinco fases y las once pantallas están implementadas. No se identificaron módulos principales ausentes. Sin embargo, la afirmación anterior de SEGUIMIENTO.md de que no queda ningún pendiente es demasiado amplia: quedan dos casos de funcionamiento por corregir, una discrepancia de configuración por resolver y comprobaciones de aceptación pendientes.
+Las cinco fases y las once pantallas están implementadas. No se identificaron módulos principales ausentes. C1 sigue pendiente; C2 tiene una corrección en la rama fix/C2-accesos-demo, pendiente de aceptación en dispositivo. D1 y V1–V3 siguen abiertos. No se afirma un porcentaje exacto de avance ni cierre completo.
 
-Esta revisión fue de lectura del código y de los resultados existentes. No se modificó código, no se ejecutaron pruebas nuevas y no se reprodujeron los casos descritos abajo. Solo se creó este documento. Las correcciones identificadas por inspección deben confirmarse con sus pruebas de regresión al implementarlas.
+La revisión inicial del 2026-11-02 fue de lectura, sin cambios de código ni pruebas nuevas. La actualización C2 del 2026-11-03 se registra abajo y en SEGUIMIENTO.md; las evidencias originales se conservan como antecedentes.
 
 ## 1. Pendientes de código
 
@@ -25,10 +25,13 @@ Esta revisión fue de lectura del código y de los resultados existentes. No se 
 
 Responsable: fix/C2-accesos-demo (identificador temporal).
 Rama: fix/C2-accesos-demo, clon separado de origin/master.
-Estado: en curso.
+Estado: implementado pendiente de validar.
 Última actualización: 2026-11-03.
-Archivos previstos: MockNetworkInterceptor.kt, LoginScreen.kt, RecoveryScreen.kt, DemoAccessTest.kt y documentos de seguimiento.
-Siguiente paso: reservar las cuentas demo con acceso fijo, comprobar recuperación y rehidratación de cuentas; conservar recuperación para cuentas registradas.
+Archivos afectados: MockNetworkInterceptor.kt, LoginScreen.kt, RecoveryScreen.kt, DemoAccessTest.kt y documentos de seguimiento.
+Resultado: cuentas demo reservadas con Demo1234; las cuentas guardadas de versiones anteriores no reemplazan sus credenciales. Recuperación rechazada explícitamente para demos y conservada para cuentas registradas. Login y recuperación explican la regla.
+Evidencia: 2 regresiones fallaron antes del cambio; después, assembleDebug y 7 pruebas JVM aprobadas; lint con 0 errores y 26 advertencias. Ver comandos en SEGUIMIENTO.md.
+Validación pendiente: pulsar ambos botones tras intentar recuperación y reiniciar el proceso Android en emulador o teléfono. Recrear el interceptor en JVM no equivale a reiniciar Android.
+Siguiente paso: ejecutar esa aceptación en dispositivo y entonces decidir el cierre de C2.
 Coordinación: el usuario informa de otro colaborador en main; esta rama no modifica ni integra su trabajo.
 
 - [ ] Definir e implementar un comportamiento consistente entre recuperación de contraseña y acceso demo.
@@ -115,5 +118,5 @@ Orden para un agente posterior:
 3. Ejecutar V1–V3 y registrar resultados reales, separando fallos de casos no probados.
 4. Actualizar SEGUIMIENTO.md después de ejecutar ese trabajo; no marcar como completadas las tareas de este archivo solo por compilar.
 
-No se implementó ninguno de estos pendientes durante esta revisión.
+La revisión inicial no implementó estos pendientes. La actualización C2 del 2026-11-03 sí incluye código y pruebas; consultar su nota y SEGUIMIENTO.md para el estado vigente.
 
