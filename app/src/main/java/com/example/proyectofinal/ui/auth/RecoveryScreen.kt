@@ -16,10 +16,9 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
     var email by rememberSaveable { mutableStateOf("") }
     var password by rememberSaveable { mutableStateOf("") }
     Page("Restablecer contraseña", back) {
-        Text("En esta demostración local puedes asignar una contraseña nueva a una cuenta registrada. No se envían correos.")
+        Text("Ingresa tu correo para recibir un enlace de recuperación.")
         Feedback(state.busy, state.message, vm::clearMessage)
         OutlinedTextField(email, { email = it }, label = { Text("Correo de la cuenta") }, singleLine = true, modifier = Modifier.fillMaxWidth())
-        OutlinedTextField(password, { password = it }, label = { Text("Nueva contraseña (mínimo 8)") }, visualTransformation = PasswordVisualTransformation(), modifier = Modifier.fillMaxWidth())
-        Button(onClick = { vm.recovery(email, password) }, enabled = !state.busy, modifier = Modifier.fillMaxWidth()) { Text("Actualizar contraseña") }
+        Button(onClick = { vm.recovery(email) }, enabled = !state.busy, modifier = Modifier.fillMaxWidth()) { Text("Enviar correo") }
     }
 }

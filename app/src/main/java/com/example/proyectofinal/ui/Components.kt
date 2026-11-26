@@ -12,8 +12,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
+import androidx.compose.material3.windowsizeclass.WindowSizeClass
+import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import coil.compose.AsyncImage
-import com.example.proyectofinal.data.local.DemoData
 import com.example.proyectofinal.data.local.entity.ReportEntity
 import com.example.proyectofinal.model.*
 import kotlinx.coroutines.CancellationException
@@ -24,15 +25,48 @@ import java.io.File
 import java.text.DateFormat
 import java.util.Date
 
+import androidx.compose.ui.res.stringResource
+import com.example.proyectofinal.R
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable fun Page(title: String, back: (() -> Unit)? = null, content: @Composable ColumnScope.() -> Unit) {
-    Scaffold(topBar = { TopAppBar(title = { Text(title) }, navigationIcon = { if (back != null) TextButton(onClick = back) { Text("Volver") } }) }) { padding ->
-        Column(Modifier.fillMaxSize().padding(padding).imePadding().verticalScroll(rememberScrollState()).padding(20.dp), verticalArrangement = Arrangement.spacedBy(14.dp), content = content)
+    Scaffold(
+        topBar = { TopAppBar(title = { Text(title) }, navigationIcon = { if (back != null) TextButton(onClick = back) { Text(stringResource(R.string.btn_back)) } }) }
+    ) { padding ->
+        Column(
+            Modifier
+                .fillMaxSize()
+                .padding(padding)
+                .imePadding()
+                .verticalScroll(rememberScrollState())
+                .padding(20.dp),
+            verticalArrangement = Arrangement.spacedBy(14.dp),
+            content = content
+        )
+    }
+}
+
+@Composable
+fun AdaptiveLayout(
+    windowSize: WindowSizeClass,
+    navigation: @Composable () -> Unit,
+    content: @Composable () -> Unit
+) {
+    if (windowSize.widthSizeClass == WindowWidthSizeClass.Compact) {
+        Column(Modifier.fillMaxSize()) {
+            Box(Modifier.weight(1f)) { content() }
+            navigation()
+        }
+    } else {
+        Row(Modifier.fillMaxSize()) {
+            navigation()
+            Box(Modifier.weight(1f)) { content() }
+        }
     }
 }
 @Composable fun Feedback(busy: Boolean, message: String?, clear: () -> Unit) {
     if (busy) LinearProgressIndicator(Modifier.fillMaxWidth())
-    if (message != null) Card(Modifier.fillMaxWidth()) { Column(Modifier.padding(12.dp)) { Text(message); TextButton(onClick = clear) { Text("Entendido") } } }
+    if (message != null) Card(Modifier.fillMaxWidth()) { Column(Modifier.padding(12.dp)) { Text(message); TextButton(onClick = clear) { Text(stringResource(R.string.btn_understood)) } } }
 }
 @Composable fun <T> Choice(label: String, selected: T, options: List<T>, text: (T) -> String, onSelect: (T) -> Unit) {
     var expanded by remember { mutableStateOf(false) }
@@ -88,7 +122,6 @@ import java.util.Date
     }
     Evidence(uri, if (resolved) "Evidencia de caso resuelto" else "Fotografía del incidente")
     OutlinedButton(onClick = { picker.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)) }, enabled = !busy, modifier = Modifier.fillMaxWidth()) { Text("Seleccionar fotografía") }
-    TextButton(onClick = { onChange(if (resolved) DemoData.RESOLVED_PHOTO else DemoData.PHOTO) }, enabled = !busy) { Text("Usar foto de prueba simulada") }
     if (uri != null) TextButton(onClick = { onChange(null) }, enabled = !busy) { Text("Quitar foto") }
     if (busy) LinearProgressIndicator(Modifier.fillMaxWidth())
     error?.let { Text(it, color = MaterialTheme.colorScheme.error) }

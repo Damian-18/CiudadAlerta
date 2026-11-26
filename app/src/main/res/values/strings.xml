@@ -1,3 +1,17 @@
 <resources>
     <string name="app_name">CiudadAlerta</string>
+    <string name="login_title">Tu comunidad, mejor atendida</string>
+    <string name="login_subtitle">Reporta baches, fallas de alumbrado y acumulación de basura. Consulta el seguimiento de cada caso.</string>
+    <string name="email_label">Correo electrónico</string>
+    <string name="password_label">Contraseña</string>
+    <string name="login_button">Iniciar sesión</string>
+    <string name="create_account_button">Crear cuenta ciudadana</string>
+    <string name="recovery_button">Restablecer contraseña</string>
+    <string name="nav_reports">Reportes</string>
+    <string name="nav_drafts">Borradores</string>
+    <string name="nav_notifications">Avisos</string>
+    <string name="nav_dashboard">Dashboard</string>
+    <string name="nav_inbox">Bandeja</string>
+    <string name="btn_back">Volver</string>
+    <string name="btn_understood">Entendido</string>
 </resources>

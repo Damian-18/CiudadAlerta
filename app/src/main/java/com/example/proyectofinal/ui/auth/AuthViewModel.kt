@@ -20,21 +20,29 @@ class AuthViewModel(private val draftRepository: DraftRepository, private val au
     }
     fun login(email: String, password: String) = authenticate { authRepository.login(email, password) }
     fun register(email: String, password: String, nombre: String) = authenticate { authRepository.register(email, password, nombre) }
-    fun loginDemoCiudadano() = login("ciudadano@comunidad.mx", "Demo1234")
-    fun loginDemoAdmin() = login("admin@ciudadalerta.mx", "Demo1234")
-    fun recovery(email: String, password: String) {
+
+    fun recovery(email: String) {
         if (_uiState.value.busy) return
         _uiState.update { it.copy(busy = true, message = null) }
         viewModelScope.launch {
-            val result = authRepository.recovery(email, password)
+            val result = authRepository.recovery(email)
             _uiState.update { it.copy(busy = false, message = result.getOrElse { e -> e.message ?: "No fue posible restablecer" }) }
         }
     }
+    
+    fun restoreSession() {
+        val session = authRepository.getCurrentSession()
+        if (session != null) {
+            _uiState.update { it.copy(session = session) }
+        }
+    }
+
     fun logout() {
         val session = _uiState.value.session ?: return
         if (_uiState.value.busy) return
         _uiState.update { it.copy(busy = true) }
         viewModelScope.launch {
+            authRepository.logout()
             val result = resultOf { draftRepository.clearUserDrafts(session.email) }
             _uiState.update { if (result.isSuccess) AuthUiState() else it.copy(busy = false, message = result.exceptionOrNull()?.message) }
         }

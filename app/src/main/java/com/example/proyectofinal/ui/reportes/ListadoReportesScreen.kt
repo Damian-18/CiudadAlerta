@@ -10,7 +10,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.proyectofinal.model.*
 import com.example.proyectofinal.ui.*
-@Composable fun ListadoReportesScreen(vm: ReportesViewModel, newReport: () -> Unit, detail: (String) -> Unit, edit: (String) -> Unit, drafts: () -> Unit, notifications: () -> Unit, logout: () -> Unit) {
+@Composable fun ListadoReportesScreen(vm: ReportesViewModel, newReport: () -> Unit, detail: (String) -> Unit, edit: (String) -> Unit, logout: () -> Unit) {
     val state by vm.uiState.collectAsStateWithLifecycle()
     var deleteFolio by rememberSaveable { mutableStateOf<String?>(null) }
     var confirmLogout by remember { mutableStateOf(false) }
@@ -18,10 +18,6 @@ import com.example.proyectofinal.ui.*
         Text("Hola, ${state.session?.nombre.orEmpty()}", style = MaterialTheme.typography.titleLarge)
         Feedback(state.busy, state.message, vm::clearMessage)
         Button(onClick = newReport, enabled = !state.busy, modifier = Modifier.fillMaxWidth()) { Text("Reportar incidencia") }
-        Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-            TextButton(onClick = drafts) { Text("Borradores (${state.drafts.size})") }
-            TextButton(onClick = notifications) { Text("Avisos (${state.notifications.count { !it.leida }})") }
-        }
         Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
             Text(if (state.showOnlyMyReports) "Mis Reportes" else "Todos los incidentes")
             Switch(checked = state.showOnlyMyReports, onCheckedChange = vm::onlyMine)

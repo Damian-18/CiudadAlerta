@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">CiudadAlerta</string>
+    <string name="login_title">Your community, better served</string>
+    <string name="login_subtitle">Report potholes, street light failures, and garbage accumulation. Track each case.</string>
+    <string name="email_label">Email address</string>
+    <string name="password_label">Password</string>
+    <string name="login_button">Sign in</string>
+    <string name="create_account_button">Create citizen account</string>
+    <string name="recovery_button">Reset password</string>
+    <string name="nav_reports">Reports</string>
+    <string name="nav_drafts">Drafts</string>
+    <string name="nav_notifications">Alerts</string>
+    <string name="nav_dashboard">Dashboard</string>
+    <string name="nav_inbox">Inbox</string>
+    <string name="btn_back">Back</string>
+    <string name="btn_understood">Understood</string>
+</resources>

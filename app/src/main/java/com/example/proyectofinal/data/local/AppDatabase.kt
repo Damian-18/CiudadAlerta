@@ -34,18 +34,6 @@ abstract class AppDatabase : RoomDatabase() {
                     AppDatabase::class.java,
                     "ciudad_alerta_db"
                 )
-                    .addCallback(object : Callback() {
-                        override fun onCreate(db: androidx.sqlite.db.SupportSQLiteDatabase) {
-                            super.onCreate(db)
-                            DemoData.reports().forEach { r ->
-                                db.execSQL("INSERT INTO reportes VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", arrayOf<Any?>(r.folio, r.autorEmail, r.autorNombre, r.departamento, r.descripcion, r.ubicacion, r.estado, r.fotoInicialUri, r.evidenciaResueltoUri, r.observacionAdmin, r.responsableAdmin, r.fechaCreacion, r.fechaActualizacion, r.version))
-                                listOf("EVIDENCIA_INICIAL" to r.fotoInicialUri, "EVIDENCIA_RESUELTO" to r.evidenciaResueltoUri).forEach { (type, uri) ->
-                                    if (uri != null) db.execSQL("INSERT INTO multimedia (reporteFolio,tipo,uriPath,mimeType,tamanoBytes,creadoEn) VALUES (?,?,?,?,?,?)", arrayOf<Any?>(r.folio,type,uri,"image/png",0,r.fechaActualizacion))
-                                }
-                                db.execSQL("INSERT INTO notificaciones (usuarioEmail,reporteFolio,titulo,mensaje,leida,fecha) VALUES (?,?,?,?,?,?)", arrayOf<Any?>(r.autorEmail,r.folio,"Estado: " + r.estado,r.observacionAdmin ?: "Reporte registrado",0,r.fechaActualizacion))
-                            }
-                        }
-                    })
                     .build()
                     .also { INSTANCE = it }
             }

@@ -10,7 +10,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.proyectofinal.model.*
 import com.example.proyectofinal.ui.*
-@Composable fun AdminDashboardScreen(vm: AdminViewModel, inbox: () -> Unit, logout: () -> Unit) {
+@Composable fun AdminDashboardScreen(vm: AdminViewModel, logout: () -> Unit) {
     val state by vm.uiState.collectAsStateWithLifecycle()
     Page("Panel de administración") {
         Text("Panorama de la comunidad", style = MaterialTheme.typography.headlineSmall)
@@ -20,7 +20,6 @@ import com.example.proyectofinal.ui.*
         }
         Text("Atención: ${"%.1f".format(state.porcentajeAtencion)}% resueltos")
         LinearProgressIndicator(progress = { state.porcentajeAtencion / 100 }, modifier = Modifier.fillMaxWidth())
-        Button(onClick = inbox, modifier = Modifier.fillMaxWidth()) { Text("Abrir bandeja de incidentes") }
         Text("Indicadores por departamento", style = MaterialTheme.typography.titleLarge)
         state.departments.forEach { kpi -> Card(Modifier.fillMaxWidth()) { Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
             Text(kpi.department.departmentArea, style = MaterialTheme.typography.titleMedium)
