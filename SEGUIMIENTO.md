@@ -32,6 +32,10 @@ La aplicación ahora está conectada a un backend de producción real usando Sup
 ## Verificación
 Fases 1-5 actualizadas. assembleDebug + testDebugUnitTest + lintDebug + assembleDebugAndroidTest: BUILD SUCCESSFUL. No quedan bloqueos.
 
+### Revisión Final de Carga de Imágenes (2026-11-27)
+- **Subida Segura**: Actualizada la función `uploadImageIfNeeded` en `ReportRepository` para que cuando falle la carga de un archivo en Supabase Storage lance una excepción (`IllegalStateException` con el error HTTP de Supabase) en lugar de silenciar el problema y retornar la URI local que fallaría para los demás dispositivos de la red.
+- **Renderizado Adaptativo**: En `Components.kt`, el componente visualizador de evidencias fue auditado; emplea efectivamente `Coil` (`AsyncImage`), por lo cual procesa de manera transparente, y con soporte completo para carga asíncrona, tanto las fotos que viajen mediante red pública (URLs HTTP/HTTPS emitidas por el bucket `evidencias`) como las vistas previas guardadas en el directorio local del dispositivo antes de ser subidas.
+
 ### Parche de Mapeo Supabase (2026-11-27)
 - **Corrección de Mapeos a snake_case**: Actualizados los `@SerializedName` en `ReportDto`, `StatusUpdateDto` y `PerfilDto` para coincidir exactamente con las columnas reales de PostgreSQL en Supabase (`fecha_creacion`, `autor_email`, `observacion_admin`, etc.).
 - **Remoción de Campos Inexistentes**: Se omitieron campos sintéticos como `autorNombre` o `version` de los DTOs remotos. Se procesan de forma transitoria en la conversión local `toEntity()`.

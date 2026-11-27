@@ -39,7 +39,7 @@ class ReportRepository(
         
         val uriStr = localUri.removePrefix("file://")
         val file = java.io.File(uriStr)
-        if (!file.exists()) return localUri
+        if (!file.exists()) return localUri // Cannot upload if missing locally, but do not override yet
         
         val filename = "${java.util.UUID.randomUUID()}.jpg"
         val requestBody = file.asRequestBody("image/jpeg".toMediaTypeOrNull())
@@ -49,8 +49,10 @@ class ReportRepository(
             val supabaseUrl = com.example.proyectofinal.BuildConfig.SUPABASE_URL
             val baseUrl = if (supabaseUrl.endsWith("/rest/v1/")) supabaseUrl.replace("/rest/v1/", "") else supabaseUrl
             return "$baseUrl/storage/v1/object/public/evidencias/$filename"
+        } else {
+            val errorBody = response.errorBody()?.string() ?: "Error HTTP ${response.code()}"
+            throw IllegalStateException("Error al subir evidencia a Supabase Storage: $errorBody")
         }
-        return localUri
     }
 
     suspend fun syncWithRemote(): Result<Unit> = resultOf { mutex.withLock {
