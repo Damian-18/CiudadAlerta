@@ -54,8 +54,20 @@ class ReportRepository(
     }
 
     suspend fun syncWithRemote(): Result<Unit> = resultOf { mutex.withLock {
-        val reports = apiService.listarReportes().requireBody()
-        database.withTransaction { reports.forEach { persist(it.toEntity()) } }
+        val remoteReports = apiService.listarReportes().requireBody()
+        database.withTransaction { 
+            val localReports = reportDao.getAllReports()
+            val remoteFolios = remoteReports.map { it.folio }.toSet()
+            val foliosToDelete = localReports.map { it.folio }.filter { it !in remoteFolios }
+            
+            foliosToDelete.forEach { folio ->
+                multimediaDao.deleteByFolio(folio)
+                notificationDao.deleteByFolio(folio)
+                reportDao.deleteByFolio(folio)
+            }
+            
+            remoteReports.forEach { persist(it.toEntity()) } 
+        }
     } }
     suspend fun createReport(report: ReportEntity): Result<ReportEntity> = resultOf { mutex.withLock {
         validate(report)

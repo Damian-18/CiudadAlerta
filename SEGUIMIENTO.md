@@ -37,6 +37,11 @@ Fases 1-5 actualizadas. assembleDebug + testDebugUnitTest + lintDebug + assemble
 - **Remoción de Campos Inexistentes**: Se omitieron campos sintéticos como `autorNombre` o `version` de los DTOs remotos. Se procesan de forma transitoria en la conversión local `toEntity()`.
 - **Nuevo DTO `HistorialReporteDto`**: Implementado endpoint `POST rest/v1/historial_reportes` que se dispara automáticamente al actualizar el estado en `updateReportStatusByAdmin` con el `actor_email` y `estado_anterior`.
 
+### Sincronización Remota con Eliminaciones (2026-11-27)
+- Modificado `ReportRepository.syncWithRemote()` para que ejecute una sincronización completa en base de datos local usando una transacción de Room (`withTransaction`).
+- La nueva lógica evalúa los folios obtenidos desde Supabase; identifica los folios que existían localmente pero fueron eliminados en la nube, y ejecuta las eliminaciones de `multimedia`, `notificaciones` y `reportes` locales correspondientes.
+- La tabla de `borradores` queda completamente intacta, garantizando la persistencia local de trabajos ciudadanos.
+
 ---
 
 ## 🛡️ DICTAMEN DE AUDITORÍA FINAL Y ACEPTACIÓN (11/11 CRITERIOS)
