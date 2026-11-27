@@ -6,3 +6,7 @@ fun <T> Response<T>.requireBody(): T {
     check(isSuccessful) { errorBody()?.string() ?: "Error HTTP ${code()}" }
     return checkNotNull(body()) { "Respuesta vacía" }
 }
+
+fun <T> Response<T>.requireSuccessful() {
+    check(isSuccessful) { errorBody()?.string() ?: "Error HTTP ${code()}" }
+}

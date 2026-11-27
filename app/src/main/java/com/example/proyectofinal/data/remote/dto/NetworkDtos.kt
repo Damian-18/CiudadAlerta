@@ -5,33 +5,38 @@ import com.google.gson.annotations.SerializedName
 
 data class ReportDto(
     @SerializedName("folio") val folio: String,
-    @SerializedName("autorEmail") val autorEmail: String,
-    @SerializedName("autorNombre") val autorNombre: String,
+    @SerializedName("autor_email") val autorEmail: String,
     @SerializedName("departamento") val departamento: String,
     @SerializedName("descripcion") val descripcion: String,
     @SerializedName("ubicacion") val ubicacion: String,
     @SerializedName("estado") val estado: String,
-    @SerializedName("fotoInicialUri") val fotoInicialUri: String?,
-    @SerializedName("evidenciaResueltoUri") val evidenciaResueltoUri: String?,
-    @SerializedName("observacionAdmin") val observacionAdmin: String?,
-    @SerializedName("responsableAdmin") val responsableAdmin: String?,
-    @SerializedName("fechaCreacion") val fechaCreacion: Long,
-    @SerializedName("fechaActualizacion") val fechaActualizacion: Long,
-    @SerializedName("version") val version: Int = 1
+    @SerializedName("foto_inicial_url") val fotoInicialUri: String?,
+    @SerializedName("evidencia_resuelto_url") val evidenciaResueltoUri: String?,
+    @SerializedName("observacion_admin") val observacionAdmin: String?,
+    @SerializedName("fecha_creacion") val fechaCreacion: Long,
+    @SerializedName("fecha_actualizacion") val fechaActualizacion: Long
 )
 
 data class StatusUpdateDto(
-    @SerializedName("estadoNuevo") val estadoNuevo: String,
-    @SerializedName("observacionAdmin") val observacionAdmin: String,
-    @SerializedName("evidenciaResueltoUri") val evidenciaResueltoUri: String?,
-    @SerializedName("responsableAdmin") val responsableAdmin: String,
-    @SerializedName("fechaActualizacion") val fechaActualizacion: Long = System.currentTimeMillis()
+    @SerializedName("estado") val estadoNuevo: String,
+    @SerializedName("observacion_admin") val observacionAdmin: String,
+    @SerializedName("evidencia_resuelto_url") val evidenciaResueltoUri: String?,
+    @SerializedName("fecha_actualizacion") val fechaActualizacion: Long = System.currentTimeMillis()
+)
+
+data class HistorialReporteDto(
+    @SerializedName("reporte_folio") val reporteFolio: String,
+    @SerializedName("estado_anterior") val estadoAnterior: String?,
+    @SerializedName("estado_nuevo") val estadoNuevo: String,
+    @SerializedName("observacion") val observacion: String,
+    @SerializedName("actor_email") val actorEmail: String,
+    @SerializedName("fecha") val fecha: Long = System.currentTimeMillis()
 )
 
 fun ReportDto.toEntity(): ReportEntity = ReportEntity(
     folio = folio,
     autorEmail = autorEmail,
-    autorNombre = autorNombre,
+    autorNombre = autorEmail.substringBefore("@"), // Fallback if remote lacks it
     departamento = departamento,
     descripcion = descripcion,
     ubicacion = ubicacion,
@@ -39,16 +44,15 @@ fun ReportDto.toEntity(): ReportEntity = ReportEntity(
     fotoInicialUri = fotoInicialUri,
     evidenciaResueltoUri = evidenciaResueltoUri,
     observacionAdmin = observacionAdmin,
-    responsableAdmin = responsableAdmin,
+    responsableAdmin = null,
     fechaCreacion = fechaCreacion,
     fechaActualizacion = fechaActualizacion,
-    version = version
+    version = 1
 )
 
 fun ReportEntity.toDto(): ReportDto = ReportDto(
     folio = folio,
     autorEmail = autorEmail,
-    autorNombre = autorNombre,
     departamento = departamento,
     descripcion = descripcion,
     ubicacion = ubicacion,
@@ -56,8 +60,6 @@ fun ReportEntity.toDto(): ReportDto = ReportDto(
     fotoInicialUri = fotoInicialUri,
     evidenciaResueltoUri = evidenciaResueltoUri,
     observacionAdmin = observacionAdmin,
-    responsableAdmin = responsableAdmin,
     fechaCreacion = fechaCreacion,
-    fechaActualizacion = fechaActualizacion,
-    version = version
+    fechaActualizacion = fechaActualizacion
 )

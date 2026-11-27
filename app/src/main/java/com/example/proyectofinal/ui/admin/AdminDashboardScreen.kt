@@ -9,25 +9,31 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.proyectofinal.model.*
+import androidx.compose.ui.res.stringResource
+import com.example.proyectofinal.R
 import com.example.proyectofinal.ui.*
-@Composable fun AdminDashboardScreen(vm: AdminViewModel, inbox: () -> Unit, logout: () -> Unit) {
+@Composable fun AdminDashboardScreen(vm: AdminViewModel, logout: () -> Unit) {
     val state by vm.uiState.collectAsStateWithLifecycle()
-    Page("Panel de administración") {
-        Text("Panorama de la comunidad", style = MaterialTheme.typography.headlineSmall)
+    Page(stringResource(R.string.admin_dashboard_title)) {
+        Text(stringResource(R.string.community_panorama), style = MaterialTheme.typography.headlineSmall)
         Feedback(state.busy, state.message, vm::clearMessage)
-        listOf("Total de reportes" to state.total, "Pendientes" to state.pendientes, "En proceso" to state.enProceso, "Resueltos" to state.resueltos).forEach { (label, count) ->
+        listOf(
+            stringResource(R.string.total_reports_kpi) to state.total, 
+            stringResource(R.string.pending_kpi) to state.pendientes, 
+            stringResource(R.string.in_process_kpi) to state.enProceso, 
+            stringResource(R.string.resolved_kpi) to state.resueltos
+        ).forEach { (label, count) ->
             ElevatedCard(Modifier.fillMaxWidth()) { Row(Modifier.fillMaxWidth().padding(16.dp), horizontalArrangement = Arrangement.SpaceBetween) { Text(label); Text(count.toString(), style = MaterialTheme.typography.titleLarge) } }
         }
-        Text("Atención: ${"%.1f".format(state.porcentajeAtencion)}% resueltos")
+        Text(stringResource(R.string.attention_percent, "%.1f".format(state.porcentajeAtencion)))
         LinearProgressIndicator(progress = { state.porcentajeAtencion / 100 }, modifier = Modifier.fillMaxWidth())
-        Button(onClick = inbox, modifier = Modifier.fillMaxWidth()) { Text("Abrir bandeja de incidentes") }
-        Text("Indicadores por departamento", style = MaterialTheme.typography.titleLarge)
+        Text(stringResource(R.string.indicators_by_department), style = MaterialTheme.typography.titleLarge)
         state.departments.forEach { kpi -> Card(Modifier.fillMaxWidth()) { Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
-            Text(kpi.department.departmentArea, style = MaterialTheme.typography.titleMedium)
-            Text("${kpi.department.displayName} · ${kpi.total} reportes")
-            Text("${kpi.pendientes} pendientes · ${kpi.enProceso} en proceso · ${kpi.resueltos} resueltos")
+            Text(stringResource(kpi.department.departmentAreaRes), style = MaterialTheme.typography.titleMedium)
+            Text(stringResource(R.string.department_reports, stringResource(kpi.department.displayNameRes), kpi.total))
+            Text(stringResource(R.string.kpi_stats, kpi.pendientes, kpi.enProceso, kpi.resueltos))
             LinearProgressIndicator(progress = { if (kpi.total == 0) 0f else kpi.resueltos.toFloat() / kpi.total }, modifier = Modifier.fillMaxWidth())
         } } }
-        TextButton(onClick = logout, enabled = !state.busy) { Text("Cerrar sesión") }
+        TextButton(onClick = logout, enabled = !state.busy) { Text(stringResource(R.string.logout_button)) }
     }
 }

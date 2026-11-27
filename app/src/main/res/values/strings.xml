@@ -1,3 +1,133 @@
 <resources>
     <string name="app_name">CiudadAlerta</string>
+    <string name="login_title">Tu comunidad, mejor atendida</string>
+    <string name="login_subtitle">Reporta baches, fallas de alumbrado y acumulación de basura. Consulta el seguimiento de cada caso.</string>
+    <string name="email_label">Correo electrónico</string>
+    <string name="password_label">Contraseña</string>
+    <string name="login_button">Iniciar sesión</string>
+    <string name="create_account_button">Crear cuenta ciudadana</string>
+    <string name="recovery_button">Restablecer contraseña</string>
+    <string name="nav_reports">Reportes</string>
+    <string name="nav_drafts">Borradores</string>
+    <string name="nav_notifications">Avisos</string>
+    <string name="nav_dashboard">Dashboard</string>
+    <string name="nav_inbox">Bandeja</string>
+    <string name="btn_back">Volver</string>
+    <string name="btn_understood">Entendido</string>
+
+    <string name="register_title">Crear cuenta</string>
+    <string name="register_subtitle">Únete como ciudadano</string>
+    <string name="name_label">Nombre</string>
+    <string name="password_min_8_label">Contraseña (mínimo 8 caracteres)</string>
+    <string name="demo_account_saved">Cuenta de demostración guardada en este dispositivo.</string>
+
+    <string name="recovery_title">Restablecer contraseña</string>
+    <string name="recovery_instructions">Ingresa tu correo para recibir un enlace de recuperación.</string>
+    <string name="account_email_label">Correo de la cuenta</string>
+    <string name="send_email_button">Enviar correo</string>
+
+    <string name="community_incidents_title">Incidentes de la comunidad</string>
+    <string name="hello_user">Hola, %s</string>
+    <string name="report_incident_button">Reportar incidencia</string>
+    <string name="my_reports">Mis Reportes</string>
+    <string name="all_incidents">Todos los incidentes</string>
+    <string name="update_reports_button">Actualizar reportes</string>
+    <string name="incidents_count">%d incidentes</string>
+    <string name="no_reports_matching_filters">No hay reportes que coincidan con los filtros.</string>
+    <string name="view_dossier">Ver expediente</string>
+    <string name="edit_button">Editar</string>
+    <string name="delete_button">Eliminar</string>
+    <string name="delete_report_title">Eliminar %s</string>
+    <string name="delete_report_message">Se eliminarán el reporte y sus evidencias y avisos asociados.</string>
+    <string name="delete_confirm_button">Eliminar</string>
+    <string name="cancel_button">Cancelar</string>
+    <string name="logout_button">Cerrar sesión</string>
+    <string name="logout_title">Cerrar sesión</string>
+    <string name="logout_message">Se borrarán tus borradores locales. Los reportes enviados se conservarán.</string>
+    <string name="logout_confirm_button">Salir</string>
+
+    <string name="capture_incident_title">Capturar incidencia</string>
+    <string name="edit_incident_title">Editar %s</string>
+    <string name="loading_report">Cargando el reporte o borrador. Si ya fue eliminado, vuelve al listado.</string>
+    <string name="department_label">Departamento</string>
+    <string name="description_label">Descripción</string>
+    <string name="location_label">Ubicación escrita</string>
+    <string name="description_hint">20 a 1000 caracteres</string>
+    <string name="location_hint">10 a 200 caracteres</string>
+    <string name="submit_report_button">Enviar reporte</string>
+    <string name="save_changes_button">Guardar cambios</string>
+    <string name="save_draft_button">Guardar borrador local</string>
+
+    <string name="my_drafts_title">Mis borradores</string>
+    <string name="drafts_info">Se guardan en este dispositivo y se eliminan al cerrar sesión.</string>
+    <string name="no_drafts_yet">Aún no tienes borradores.</string>
+    <string name="no_description">Sin descripción</string>
+    <string name="no_location">Sin ubicación</string>
+    <string name="resume_edit_button">Retomar / editar</string>
+    <string name="delete_draft_button">Eliminar borrador</string>
+
+    <string name="notifications_title">Notificaciones</string>
+    <string name="no_notifications">No tienes notificaciones.</string>
+    <string name="notification_read">Leída</string>
+    <string name="notification_new">Nueva</string>
+    <string name="view_report_button">Ver reporte</string>
+    <string name="mark_as_read_button">Marcar como leída</string>
+
+    <string name="dossier_title">Expediente %s</string>
+    <string name="report_not_available">Reporte no disponible.</string>
+    <string name="reported_by">Reportado por %s</string>
+    <string name="created_at">Creado: %s</string>
+    <string name="initial_photo">Fotografía inicial</string>
+    <string name="tracking_title">Seguimiento</string>
+    <string name="updated_at_version">Actualizado: %1$s · Versión %2$d</string>
+    <string name="responsible_admin">Responsable: %s</string>
+    <string name="resolved_evidence">Evidencia de caso resuelto</string>
+    <string name="saved_evidences">%d evidencias guardadas</string>
+    <string name="case_history_title">Historial del caso</string>
+    <string name="report_created_at">%s · Reporte creado</string>
+
+    <string name="admin_dashboard_title">Panel de administración</string>
+    <string name="community_panorama">Panorama de la comunidad</string>
+    <string name="total_reports_kpi">Total de reportes</string>
+    <string name="pending_kpi">Pendientes</string>
+    <string name="in_process_kpi">En proceso</string>
+    <string name="resolved_kpi">Resueltos</string>
+    <string name="attention_percent">Atención: %s%% resueltos</string>
+    <string name="indicators_by_department">Indicadores por departamento</string>
+    <string name="department_reports">%1$s · %2$d reportes</string>
+    <string name="kpi_stats">%1$d pendientes · %2$d en proceso · %3$d resueltos</string>
+
+    <string name="admin_inbox_title">Bandeja administrativa</string>
+    <string name="no_incidents_filtered">No hay incidentes con estos filtros.</string>
+    <string name="manage_case_button">Gestionar caso</string>
+
+    <string name="manage_case_title">Gestionar %s</string>
+    <string name="case_already_resolved">Este caso ya está resuelto.</string>
+    <string name="next_status">Siguiente estado: %s</string>
+    <string name="mandatory_observation">Observación obligatoria</string>
+    <string name="observation_hint">5 a 500 caracteres</string>
+    <string name="attach_photo_to_resolve">Adjunta una fotografía para resolver el caso.</string>
+    <string name="change_to_status">Cambiar a %s</string>
+
+    <string name="filter_all">Todos</string>
+    <string name="status_label">Estado</string>
+    <string name="no_photo_attached">Sin fotografía adjunta</string>
+    <string name="image_open_error">No se pudo abrir la imagen. Selecciona una fotografía disponible.</string>
+    <string name="simulated_test_image">Imagen de prueba simulada</string>
+    <string name="incident_photo">Fotografía del incidente</string>
+    <string name="select_photo_button">Seleccionar fotografía</string>
+    <string name="remove_photo_button">Quitar foto</string>
+    <string name="image_save_error">No se pudo guardar la imagen: %s</string>
+
+    <string name="dept_baches">Baches</string>
+    <string name="area_obras_publicas">Departamento de Obras Públicas</string>
+    <string name="dept_alumbrado">Alumbrado</string>
+    <string name="area_servicios_publicos">Departamento de Servicios Públicos</string>
+    <string name="dept_basura">Basura</string>
+    <string name="area_limpia">Departamento de Limpia y Recolección</string>
+    <string name="status_pending">Pendiente</string>
+    <string name="status_in_process">En proceso</string>
+    <string name="status_resolved">Resuelto</string>
+    <string name="role_citizen">Ciudadano</string>
+    <string name="role_admin">Administrador</string>
 </resources>
