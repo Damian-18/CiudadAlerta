@@ -111,6 +111,9 @@ fun AdaptiveLayout(
     val scope = rememberCoroutineScope()
     var busy by remember { mutableStateOf(false) }
     var error by remember { mutableStateOf<String?>(null) }
+    
+    val imageSaveErrorTemplate = stringResource(R.string.image_save_error)
+    
     val picker = rememberLauncherForActivityResult(ActivityResultContracts.PickVisualMedia()) { picked ->
         if (picked != null) scope.launch {
             busy = true; error = null
@@ -124,7 +127,7 @@ fun AdaptiveLayout(
                     } catch (e: Exception) { target.delete(); throw e }
                 }
                 onChange(copy)
-            } catch (e: CancellationException) { throw e } catch (e: Exception) { error = context.getString(R.string.image_save_error, e.message) } finally { busy = false }
+            } catch (e: CancellationException) { throw e } catch (e: Exception) { error = imageSaveErrorTemplate.format(e.message) } finally { busy = false }
         }
     }
     Evidence(uri, if (resolved) stringResource(R.string.resolved_evidence) else stringResource(R.string.incident_photo))
