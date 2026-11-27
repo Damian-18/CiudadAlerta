@@ -32,6 +32,9 @@ La aplicación ahora está conectada a un backend de producción real usando Sup
 ## Verificación
 Fases 1-5 actualizadas. assembleDebug + testDebugUnitTest + lintDebug + assembleDebugAndroidTest: BUILD SUCCESSFUL. No quedan bloqueos.
 
+### Parche 2026-11-27
+- **Null Safety en DTOs**: Actualizados `PerfilDto` (nombre nullable con fallback al email), `ReportDto` y `StatusUpdateDto` (fotos nullable) para soportar variables indefinidas o nulas de PostgREST. Esto evita crashes si hay filas sin nombre en Supabase.
+
 ---
 
 ## 🛡️ DICTAMEN DE AUDITORÍA FINAL Y ACEPTACIÓN (11/11 CRITERIOS)
