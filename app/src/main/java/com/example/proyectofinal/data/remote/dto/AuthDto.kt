@@ -18,6 +18,6 @@ data class SupabaseUser(
 
 data class PerfilDto(
     val id: String,
-    val rol: String,
-    val nombre: String
+    val rol: String?,
+    val nombre: String? = null
 )

@@ -30,10 +30,12 @@ class AuthRepository(
         val perfil = perfilRes.firstOrNull() ?: throw IllegalStateException("Perfil no encontrado")
         
         val role = if (perfil.rol == "ADMIN") UserRole.ADMIN else UserRole.CIUDADANO
+        val safeNombre = perfil.nombre?.takeIf { it.isNotBlank() } ?: user.email.substringBefore("@")
+        
         val session = UserSession(
             uid = user.id,
             email = user.email,
-            nombre = perfil.nombre,
+            nombre = safeNombre,
             role = role
         )
         
