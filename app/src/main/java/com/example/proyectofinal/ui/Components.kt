@@ -33,16 +33,23 @@ import com.example.proyectofinal.R
     Scaffold(
         topBar = { TopAppBar(title = { Text(title) }, navigationIcon = { if (back != null) TextButton(onClick = back) { Text(stringResource(R.string.btn_back)) } }) }
     ) { padding ->
-        Column(
+        Box(
             Modifier
                 .fillMaxSize()
                 .padding(padding)
                 .imePadding()
-                .verticalScroll(rememberScrollState())
-                .padding(20.dp),
-            verticalArrangement = Arrangement.spacedBy(14.dp),
-            content = content
-        )
+                .verticalScroll(rememberScrollState()),
+            contentAlignment = androidx.compose.ui.Alignment.TopCenter
+        ) {
+            Column(
+                Modifier
+                    .widthIn(max = 600.dp)
+                    .fillMaxWidth()
+                    .padding(20.dp),
+                verticalArrangement = Arrangement.spacedBy(14.dp),
+                content = content
+            )
+        }
     }
 }
 
