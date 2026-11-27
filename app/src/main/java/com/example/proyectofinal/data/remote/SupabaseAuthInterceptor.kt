@@ -20,7 +20,8 @@ class SupabaseAuthInterceptor : Interceptor {
         }
 
         // Para Supabase/PostgREST, solicitar la representación del objeto después de insertar/actualizar
-        if (originalRequest.method == "POST" || originalRequest.method == "PATCH") {
+        if ((originalRequest.method == "POST" || originalRequest.method == "PATCH") && 
+            originalRequest.url.encodedPath.contains("/rest/v1/")) {
             builder.header("Prefer", "return=representation")
         }
 

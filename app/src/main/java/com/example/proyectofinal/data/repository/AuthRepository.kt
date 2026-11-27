@@ -22,37 +22,47 @@ class AuthRepository(
 
     suspend fun login(email: String, password: String): Result<UserSession> = resultOf {
         val authRes = api.login(AuthDto(email, password)).requireBody()
-        authInterceptor.accessToken = authRes.access_token
+        val token = checkNotNull(authRes.access_token) { "Error al obtener token de sesión" }
+        val user = checkNotNull(authRes.user) { "Error al obtener datos del usuario" }
+        authInterceptor.accessToken = token
         
-        val perfilRes = api.obtenerPerfil("eq.${authRes.user.id}").requireBody()
+        val perfilRes = api.obtenerPerfil("eq.${user.id}").requireBody()
         val perfil = perfilRes.firstOrNull() ?: throw IllegalStateException("Perfil no encontrado")
         
         val role = if (perfil.rol == "ADMIN") UserRole.ADMIN else UserRole.CIUDADANO
         val session = UserSession(
-            uid = authRes.user.id,
-            email = authRes.user.email,
+            uid = user.id,
+            email = user.email,
             nombre = perfil.nombre,
             role = role
         )
         
-        saveSession(authRes.access_token, authRes.refresh_token, session)
+        saveSession(token, authRes.refresh_token ?: "", session)
         session
     }
 
     suspend fun register(email: String, password: String, nombre: String): Result<UserSession> = resultOf {
         val authRes = api.register(AuthDto(email, password, mapOf("nombre" to nombre))).requireBody()
-        authInterceptor.accessToken = authRes.access_token
+        
+        // Supabase puede devolver un usuario sin access_token si requiere confirmación de email
+        if (authRes.access_token == null) {
+            throw IllegalStateException("Cuenta creada. Revisa tu correo para confirmar.")
+        }
+        
+        val token = authRes.access_token
+        val user = checkNotNull(authRes.user) { "Error al obtener datos del usuario" }
+        authInterceptor.accessToken = token
         
         // Supabase creará el perfil mediante triggers en base de datos.
-        // Hacemos polling o asumimos ciudadano por defecto.
+        // Asumimos ciudadano por defecto.
         val role = UserRole.CIUDADANO
         val session = UserSession(
-            uid = authRes.user.id,
-            email = authRes.user.email,
+            uid = user.id,
+            email = user.email,
             nombre = nombre,
             role = role
         )
-        saveSession(authRes.access_token, authRes.refresh_token, session)
+        saveSession(token, authRes.refresh_token ?: "", session)
         session
     }
 

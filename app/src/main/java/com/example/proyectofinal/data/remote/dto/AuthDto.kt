@@ -5,9 +5,9 @@ data class AuthDto(val email: String, val password: String, val data: Map<String
 data class RecoveryDto(val email: String)
 
 data class SupabaseAuthResponse(
-    val access_token: String,
-    val refresh_token: String,
-    val user: SupabaseUser
+    val access_token: String?,
+    val refresh_token: String?,
+    val user: SupabaseUser?
 )
 
 data class SupabaseUser(
