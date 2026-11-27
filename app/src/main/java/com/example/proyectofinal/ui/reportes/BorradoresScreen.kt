@@ -9,19 +9,21 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.proyectofinal.model.*
+import androidx.compose.ui.res.stringResource
+import com.example.proyectofinal.R
 import com.example.proyectofinal.ui.*
 @Composable fun BorradoresScreen(vm: ReportesViewModel, resume: (Int) -> Unit, back: () -> Unit) {
     val state by vm.uiState.collectAsStateWithLifecycle()
-    Page("Mis borradores", back) {
+    Page(stringResource(R.string.my_drafts_title), back) {
         Feedback(state.busy, state.message, vm::clearMessage)
-        Text("Se guardan en este dispositivo y se eliminan al cerrar sesión.")
-        if (state.drafts.isEmpty()) Text("Aún no tienes borradores.")
+        Text(stringResource(R.string.drafts_info))
+        if (state.drafts.isEmpty()) Text(stringResource(R.string.no_drafts_yet))
         state.drafts.forEach { draft -> Card(Modifier.fillMaxWidth()) { Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
-            Text(Department.fromCode(draft.departamento).displayName, style = MaterialTheme.typography.titleMedium)
-            Text(draft.descripcion.ifBlank { "Sin descripción" }); Text(draft.ubicacion.ifBlank { "Sin ubicación" }); Text(dateLabel(draft.actualizadoEn))
-            TextButton(onClick = { resume(draft.id) }, enabled = !state.busy) { Text("Retomar / editar") }
-            TextButton(onClick = { vm.crearOEditarReporte(null, draft.id, draft.departamento, draft.descripcion, draft.ubicacion, draft.fotoLocalUri, {}) }, enabled = !state.busy) { Text("Enviar reporte") }
-            TextButton(onClick = { vm.eliminarBorrador(draft.id) }, enabled = !state.busy) { Text("Eliminar borrador") }
+            Text(stringResource(Department.fromCode(draft.departamento).displayNameRes), style = MaterialTheme.typography.titleMedium)
+            Text(draft.descripcion.ifBlank { stringResource(R.string.no_description) }); Text(draft.ubicacion.ifBlank { stringResource(R.string.no_location) }); Text(dateLabel(draft.actualizadoEn))
+            TextButton(onClick = { resume(draft.id) }, enabled = !state.busy) { Text(stringResource(R.string.resume_edit_button)) }
+            TextButton(onClick = { vm.crearOEditarReporte(null, draft.id, draft.departamento, draft.descripcion, draft.ubicacion, draft.fotoLocalUri, {}) }, enabled = !state.busy) { Text(stringResource(R.string.submit_report_button)) }
+            TextButton(onClick = { vm.eliminarBorrador(draft.id) }, enabled = !state.busy) { Text(stringResource(R.string.delete_draft_button)) }
         } } }
     }
 }

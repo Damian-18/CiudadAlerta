@@ -75,7 +75,7 @@ fun AdaptiveLayout(
     if (busy) LinearProgressIndicator(Modifier.fillMaxWidth())
     if (message != null) Card(Modifier.fillMaxWidth()) { Column(Modifier.padding(12.dp)) { Text(message); TextButton(onClick = clear) { Text(stringResource(R.string.btn_understood)) } } }
 }
-@Composable fun <T> Choice(label: String, selected: T, options: List<T>, text: (T) -> String, onSelect: (T) -> Unit) {
+@Composable fun <T> Choice(label: String, selected: T, options: List<T>, text: @Composable (T) -> String, onSelect: (T) -> Unit) {
     var expanded by remember { mutableStateOf(false) }
     Box {
         OutlinedButton(onClick = { expanded = true }, modifier = Modifier.fillMaxWidth()) { Text("$label: ${text(selected)}") }
@@ -85,13 +85,13 @@ fun AdaptiveLayout(
     }
 }
 @Composable fun Filters(department: Department?, status: ReportStatus?, onDepartment: (Department?) -> Unit, onStatus: (ReportStatus?) -> Unit) {
-    Choice("Departamento", department, listOf(null) + Department.entries, { it?.displayName ?: "Todos" }, onDepartment)
-    Choice("Estado", status, listOf(null) + ReportStatus.entries, { it?.displayName ?: "Todos" }, onStatus)
+    Choice(stringResource(R.string.department_label), department, listOf(null) + Department.entries, { it?.displayNameRes?.let { res -> stringResource(res) } ?: stringResource(R.string.filter_all) }, onDepartment)
+    Choice(stringResource(R.string.status_label), status, listOf(null) + ReportStatus.entries, { it?.displayNameRes?.let { res -> stringResource(res) } ?: stringResource(R.string.filter_all) }, onStatus)
 }
 @Composable fun ReportCard(report: ReportEntity, content: @Composable ColumnScope.() -> Unit) {
     ElevatedCard(Modifier.fillMaxWidth()) { Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
         Text(report.folio, style = MaterialTheme.typography.titleMedium)
-        Text("${Department.fromCode(report.departamento).displayName} · ${ReportStatus.fromCode(report.estado).displayName}", color = MaterialTheme.colorScheme.primary)
+        Text("${stringResource(Department.fromCode(report.departamento).displayNameRes)} · ${stringResource(ReportStatus.fromCode(report.estado).displayNameRes)}", color = MaterialTheme.colorScheme.primary)
         Text(report.descripcion)
         Text(report.ubicacion, style = MaterialTheme.typography.bodySmall)
         content()
@@ -99,11 +99,11 @@ fun AdaptiveLayout(
 }
 @Composable fun Evidence(uri: String?, label: String) {
     Text(label, style = MaterialTheme.typography.titleSmall)
-    if (uri.isNullOrBlank()) Text("Sin fotografía adjunta") else {
+    if (uri.isNullOrBlank()) Text(stringResource(R.string.no_photo_attached)) else {
         var failed by remember(uri) { mutableStateOf(false) }
         AsyncImage(model = uri, contentDescription = label, modifier = Modifier.fillMaxWidth().height(210.dp), contentScale = ContentScale.Fit, onError = { failed = true })
-        if (failed) Text("No se pudo abrir la imagen. Selecciona una fotografía disponible.")
-        if (uri.startsWith("file:///android_asset/")) Text("Imagen de prueba simulada", style = MaterialTheme.typography.labelSmall)
+        if (failed) Text(stringResource(R.string.image_open_error))
+        if (uri.startsWith("file:///android_asset/")) Text(stringResource(R.string.simulated_test_image), style = MaterialTheme.typography.labelSmall)
     }
 }
 @Composable fun PhotoField(uri: String?, resolved: Boolean = false, onChange: (String?) -> Unit) {
@@ -124,12 +124,12 @@ fun AdaptiveLayout(
                     } catch (e: Exception) { target.delete(); throw e }
                 }
                 onChange(copy)
-            } catch (e: CancellationException) { throw e } catch (e: Exception) { error = "No se pudo guardar la imagen: ${e.message}" } finally { busy = false }
+            } catch (e: CancellationException) { throw e } catch (e: Exception) { error = context.getString(R.string.image_save_error, e.message) } finally { busy = false }
         }
     }
-    Evidence(uri, if (resolved) "Evidencia de caso resuelto" else "Fotografía del incidente")
-    OutlinedButton(onClick = { picker.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)) }, enabled = !busy, modifier = Modifier.fillMaxWidth()) { Text("Seleccionar fotografía") }
-    if (uri != null) TextButton(onClick = { onChange(null) }, enabled = !busy) { Text("Quitar foto") }
+    Evidence(uri, if (resolved) stringResource(R.string.resolved_evidence) else stringResource(R.string.incident_photo))
+    OutlinedButton(onClick = { picker.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)) }, enabled = !busy, modifier = Modifier.fillMaxWidth()) { Text(stringResource(R.string.select_photo_button)) }
+    if (uri != null) TextButton(onClick = { onChange(null) }, enabled = !busy) { Text(stringResource(R.string.remove_photo_button)) }
     if (busy) LinearProgressIndicator(Modifier.fillMaxWidth())
     error?.let { Text(it, color = MaterialTheme.colorScheme.error) }
 }

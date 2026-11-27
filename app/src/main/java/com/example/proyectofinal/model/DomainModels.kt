@@ -1,30 +1,33 @@
 package com.example.proyectofinal.model
 
-enum class UserRole(val label: String) {
-    CIUDADANO("Ciudadano"),
-    ADMIN("Administrador")
+import androidx.annotation.StringRes
+import com.example.proyectofinal.R
+
+enum class UserRole(@StringRes val label: Int) {
+    CIUDADANO(R.string.role_citizen),
+    ADMIN(R.string.role_admin)
 }
 
-enum class Department(val code: String, val displayName: String, val departmentArea: String) {
-    BACHES("BACHES", "Baches", "Departamento de Obras Públicas"),
-    ALUMBRADO("ALUMBRADO", "Alumbrado", "Departamento de Servicios Públicos"),
-    BASURA("BASURA", "Basura", "Departamento de Limpia y Recolección");
+enum class Department(val code: String, val legacyName: String, @StringRes val displayNameRes: Int, @StringRes val departmentAreaRes: Int) {
+    BACHES("BACHES", "Baches", R.string.dept_baches, R.string.area_obras_publicas),
+    ALUMBRADO("ALUMBRADO", "Alumbrado", R.string.dept_alumbrado, R.string.area_servicios_publicos),
+    BASURA("BASURA", "Basura", R.string.dept_basura, R.string.area_limpia);
 
     companion object {
         fun fromCode(code: String): Department =
-            entries.find { it.code.equals(code, ignoreCase = true) || it.displayName.equals(code, ignoreCase = true) }
+            entries.find { it.code.equals(code, ignoreCase = true) || it.legacyName.equals(code, ignoreCase = true) }
                 ?: BACHES
     }
 }
 
-enum class ReportStatus(val code: String, val displayName: String) {
-    PENDIENTE("PENDIENTE", "Pendiente"),
-    EN_PROCESO("EN_PROCESO", "En proceso"),
-    RESUELTO("RESUELTO", "Resuelto");
+enum class ReportStatus(val code: String, val legacyName: String, @StringRes val displayNameRes: Int) {
+    PENDIENTE("PENDIENTE", "Pendiente", R.string.status_pending),
+    EN_PROCESO("EN_PROCESO", "En proceso", R.string.status_in_process),
+    RESUELTO("RESUELTO", "Resuelto", R.string.status_resolved);
 
     companion object {
         fun fromCode(code: String): ReportStatus =
-            entries.find { it.code.equals(code, ignoreCase = true) || it.displayName.equals(code, ignoreCase = true) }
+            entries.find { it.code.equals(code, ignoreCase = true) || it.legacyName.equals(code, ignoreCase = true) }
                 ?: PENDIENTE
 
         fun canTransition(from: ReportStatus, to: ReportStatus): Boolean {

@@ -14,4 +14,120 @@
     <string name="nav_inbox">Inbox</string>
     <string name="btn_back">Back</string>
     <string name="btn_understood">Understood</string>
+
+    <string name="register_title">Create account</string>
+    <string name="register_subtitle">Join as a citizen</string>
+    <string name="name_label">Name</string>
+    <string name="password_min_8_label">Password (minimum 8 characters)</string>
+    <string name="demo_account_saved">Demo account saved on this device.</string>
+
+    <string name="recovery_title">Reset password</string>
+    <string name="recovery_instructions">Enter your email to receive a recovery link.</string>
+    <string name="account_email_label">Account email</string>
+    <string name="send_email_button">Send email</string>
+
+    <string name="community_incidents_title">Community incidents</string>
+    <string name="hello_user">Hello, %s</string>
+    <string name="report_incident_button">Report incident</string>
+    <string name="my_reports">My Reports</string>
+    <string name="all_incidents">All incidents</string>
+    <string name="update_reports_button">Update reports</string>
+    <string name="incidents_count">%d incidents</string>
+    <string name="no_reports_matching_filters">No reports matching the filters.</string>
+    <string name="view_dossier">View dossier</string>
+    <string name="edit_button">Edit</string>
+    <string name="delete_button">Delete</string>
+    <string name="delete_report_title">Delete %s</string>
+    <string name="delete_report_message">The report, its evidence, and associated alerts will be deleted.</string>
+    <string name="delete_confirm_button">Delete</string>
+    <string name="cancel_button">Cancel</string>
+    <string name="logout_button">Sign out</string>
+    <string name="logout_title">Sign out</string>
+    <string name="logout_message">Your local drafts will be deleted. Submitted reports will be kept.</string>
+    <string name="logout_confirm_button">Sign out</string>
+
+    <string name="capture_incident_title">Capture incident</string>
+    <string name="edit_incident_title">Edit %s</string>
+    <string name="loading_report">Loading the report or draft. If it was deleted, go back to the list.</string>
+    <string name="department_label">Department</string>
+    <string name="description_label">Description</string>
+    <string name="location_label">Written location</string>
+    <string name="description_hint">20 to 1000 characters</string>
+    <string name="location_hint">10 to 200 characters</string>
+    <string name="submit_report_button">Submit report</string>
+    <string name="save_changes_button">Save changes</string>
+    <string name="save_draft_button">Save local draft</string>
+
+    <string name="my_drafts_title">My drafts</string>
+    <string name="drafts_info">Saved on this device and deleted upon sign out.</string>
+    <string name="no_drafts_yet">You have no drafts yet.</string>
+    <string name="no_description">No description</string>
+    <string name="no_location">No location</string>
+    <string name="resume_edit_button">Resume / edit</string>
+    <string name="delete_draft_button">Delete draft</string>
+
+    <string name="notifications_title">Notifications</string>
+    <string name="no_notifications">You have no notifications.</string>
+    <string name="notification_read">Read</string>
+    <string name="notification_new">New</string>
+    <string name="view_report_button">View report</string>
+    <string name="mark_as_read_button">Mark as read</string>
+
+    <string name="dossier_title">Dossier %s</string>
+    <string name="report_not_available">Report not available.</string>
+    <string name="reported_by">Reported by %s</string>
+    <string name="created_at">Created: %s</string>
+    <string name="initial_photo">Initial photo</string>
+    <string name="tracking_title">Tracking</string>
+    <string name="updated_at_version">Updated: %1$s · Version %2$d</string>
+    <string name="responsible_admin">Responsible: %s</string>
+    <string name="resolved_evidence">Resolved case evidence</string>
+    <string name="saved_evidences">%d saved evidences</string>
+    <string name="case_history_title">Case history</string>
+    <string name="report_created_at">%s · Report created</string>
+
+    <string name="admin_dashboard_title">Administration dashboard</string>
+    <string name="community_panorama">Community panorama</string>
+    <string name="total_reports_kpi">Total reports</string>
+    <string name="pending_kpi">Pending</string>
+    <string name="in_process_kpi">In process</string>
+    <string name="resolved_kpi">Resolved</string>
+    <string name="attention_percent">Attention: %s%% resolved</string>
+    <string name="indicators_by_department">Indicators by department</string>
+    <string name="department_reports">%1$s · %2$d reports</string>
+    <string name="kpi_stats">%1$d pending · %2$d in process · %3$d resolved</string>
+
+    <string name="admin_inbox_title">Administrative inbox</string>
+    <string name="no_incidents_filtered">No incidents with these filters.</string>
+    <string name="manage_case_button">Manage case</string>
+
+    <string name="manage_case_title">Manage %s</string>
+    <string name="case_already_resolved">This case is already resolved.</string>
+    <string name="next_status">Next status: %s</string>
+    <string name="mandatory_observation">Mandatory observation</string>
+    <string name="observation_hint">5 to 500 characters</string>
+    <string name="attach_photo_to_resolve">Attach a photo to resolve the case.</string>
+    <string name="change_to_status">Change to %s</string>
+
+    <string name="filter_all">All</string>
+    <string name="status_label">Status</string>
+    <string name="no_photo_attached">No attached photo</string>
+    <string name="image_open_error">Could not open the image. Select an available photo.</string>
+    <string name="simulated_test_image">Simulated test image</string>
+    <string name="incident_photo">Incident photo</string>
+    <string name="select_photo_button">Select photo</string>
+    <string name="remove_photo_button">Remove photo</string>
+    <string name="image_save_error">Could not save the image: %s</string>
+
+    <string name="dept_baches">Potholes</string>
+    <string name="area_obras_publicas">Public Works Department</string>
+    <string name="dept_alumbrado">Street lighting</string>
+    <string name="area_servicios_publicos">Public Services Department</string>
+    <string name="dept_basura">Garbage</string>
+    <string name="area_limpia">Cleaning and Collection Department</string>
+    <string name="status_pending">Pending</string>
+    <string name="status_in_process">In process</string>
+    <string name="status_resolved">Resolved</string>
+    <string name="role_citizen">Citizen</string>
+    <string name="role_admin">Administrator</string>
 </resources>

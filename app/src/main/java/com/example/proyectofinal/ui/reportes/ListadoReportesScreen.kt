@@ -9,32 +9,34 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.proyectofinal.model.*
+import androidx.compose.ui.res.stringResource
+import com.example.proyectofinal.R
 import com.example.proyectofinal.ui.*
 @Composable fun ListadoReportesScreen(vm: ReportesViewModel, newReport: () -> Unit, detail: (String) -> Unit, edit: (String) -> Unit, logout: () -> Unit) {
     val state by vm.uiState.collectAsStateWithLifecycle()
     var deleteFolio by rememberSaveable { mutableStateOf<String?>(null) }
     var confirmLogout by remember { mutableStateOf(false) }
-    Page("Incidentes de la comunidad") {
-        Text("Hola, ${state.session?.nombre.orEmpty()}", style = MaterialTheme.typography.titleLarge)
+    Page(stringResource(R.string.community_incidents_title)) {
+        Text(stringResource(R.string.hello_user, state.session?.nombre.orEmpty()), style = MaterialTheme.typography.titleLarge)
         Feedback(state.busy, state.message, vm::clearMessage)
-        Button(onClick = newReport, enabled = !state.busy, modifier = Modifier.fillMaxWidth()) { Text("Reportar incidencia") }
+        Button(onClick = newReport, enabled = !state.busy, modifier = Modifier.fillMaxWidth()) { Text(stringResource(R.string.report_incident_button)) }
         Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-            Text(if (state.showOnlyMyReports) "Mis Reportes" else "Todos los incidentes")
+            Text(if (state.showOnlyMyReports) stringResource(R.string.my_reports) else stringResource(R.string.all_incidents))
             Switch(checked = state.showOnlyMyReports, onCheckedChange = vm::onlyMine)
         }
         Filters(state.selectedDepartment, state.selectedStatus, vm::department, vm::status)
-        OutlinedButton(onClick = vm::syncRemoteReports, enabled = !state.busy) { Text("Actualizar reportes") }
-        Text("${state.filteredReports.size} incidentes", style = MaterialTheme.typography.titleMedium)
-        if (state.filteredReports.isEmpty()) Text("No hay reportes que coincidan con los filtros.")
+        OutlinedButton(onClick = vm::syncRemoteReports, enabled = !state.busy) { Text(stringResource(R.string.update_reports_button)) }
+        Text(stringResource(R.string.incidents_count, state.filteredReports.size), style = MaterialTheme.typography.titleMedium)
+        if (state.filteredReports.isEmpty()) Text(stringResource(R.string.no_reports_matching_filters))
         state.filteredReports.forEach { report -> ReportCard(report) {
-            TextButton(onClick = { detail(report.folio) }) { Text("Ver expediente") }
+            TextButton(onClick = { detail(report.folio) }) { Text(stringResource(R.string.view_dossier)) }
             if (report.autorEmail == state.session?.email) Row {
-                TextButton(onClick = { edit(report.folio) }, enabled = !state.busy) { Text("Editar") }
-                TextButton(onClick = { deleteFolio = report.folio }, enabled = !state.busy) { Text("Eliminar") }
+                TextButton(onClick = { edit(report.folio) }, enabled = !state.busy) { Text(stringResource(R.string.edit_button)) }
+                TextButton(onClick = { deleteFolio = report.folio }, enabled = !state.busy) { Text(stringResource(R.string.delete_button)) }
             }
         } }
-        TextButton(onClick = { confirmLogout = true }, enabled = !state.busy) { Text("Cerrar sesión") }
+        TextButton(onClick = { confirmLogout = true }, enabled = !state.busy) { Text(stringResource(R.string.logout_button)) }
     }
-    deleteFolio?.let { folio -> AlertDialog(onDismissRequest = { deleteFolio = null }, title = { Text("Eliminar $folio") }, text = { Text("Se eliminarán el reporte y sus evidencias y avisos asociados.") }, confirmButton = { TextButton(onClick = { vm.eliminarReporte(folio); deleteFolio = null }) { Text("Eliminar") } }, dismissButton = { TextButton(onClick = { deleteFolio = null }) { Text("Cancelar") } }) }
-    if (confirmLogout) AlertDialog(onDismissRequest = { confirmLogout = false }, title = { Text("Cerrar sesión") }, text = { Text("Se borrarán tus borradores locales. Los reportes enviados se conservarán.") }, confirmButton = { TextButton(onClick = { confirmLogout = false; logout() }) { Text("Salir") } }, dismissButton = { TextButton(onClick = { confirmLogout = false }) { Text("Cancelar") } })
+    deleteFolio?.let { folio -> AlertDialog(onDismissRequest = { deleteFolio = null }, title = { Text(stringResource(R.string.delete_report_title, folio)) }, text = { Text(stringResource(R.string.delete_report_message)) }, confirmButton = { TextButton(onClick = { vm.eliminarReporte(folio); deleteFolio = null }) { Text(stringResource(R.string.delete_confirm_button)) } }, dismissButton = { TextButton(onClick = { deleteFolio = null }) { Text(stringResource(R.string.cancel_button)) } }) }
+    if (confirmLogout) AlertDialog(onDismissRequest = { confirmLogout = false }, title = { Text(stringResource(R.string.logout_title)) }, text = { Text(stringResource(R.string.logout_message)) }, confirmButton = { TextButton(onClick = { confirmLogout = false; logout() }) { Text(stringResource(R.string.logout_confirm_button)) } }, dismissButton = { TextButton(onClick = { confirmLogout = false }) { Text(stringResource(R.string.cancel_button)) } })
 }
