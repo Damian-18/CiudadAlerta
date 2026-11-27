@@ -82,7 +82,18 @@ class ReportRepository(
         require(ReportValidator.validateAdminObservation(observacion) == null) { "La observación debe tener de 5 a 500 caracteres" }
         require(nuevoEstado != "RESUELTO" || !evidenciaResueltoUri.isNullOrBlank()) { "La evidencia fotográfica es obligatoria" }
         val uploadedUri = uploadImageIfNeeded(evidenciaResueltoUri)
-        val updated = apiService.actualizarEstado("eq.$folio", StatusUpdateDto(nuevoEstado, observacion.trim(), uploadedUri, adminEmail)).requireBody().first().toEntity()
+        val updated = apiService.actualizarEstado("eq.$folio", StatusUpdateDto(nuevoEstado, observacion.trim(), uploadedUri)).requireBody().first().toEntity()
+        
+        apiService.agregarHistorial(
+            HistorialReporteDto(
+                reporteFolio = folio,
+                estadoAnterior = current.estado,
+                estadoNuevo = nuevoEstado,
+                observacion = observacion.trim(),
+                actorEmail = adminEmail
+            )
+        )
+        
         database.withTransaction {
             persist(updated)
             notificationDao.insertNotification(NotificationEntity(usuarioEmail = updated.autorEmail, reporteFolio = folio, titulo = "Estado: $nuevoEstado", mensaje = "$adminEmail: ${observacion.trim()}"))

@@ -32,8 +32,10 @@ La aplicación ahora está conectada a un backend de producción real usando Sup
 ## Verificación
 Fases 1-5 actualizadas. assembleDebug + testDebugUnitTest + lintDebug + assembleDebugAndroidTest: BUILD SUCCESSFUL. No quedan bloqueos.
 
-### Parche 2026-11-27
-- **Null Safety en DTOs**: Actualizados `PerfilDto` (nombre nullable con fallback al email), `ReportDto` y `StatusUpdateDto` (fotos nullable) para soportar variables indefinidas o nulas de PostgREST. Esto evita crashes si hay filas sin nombre en Supabase.
+### Parche de Mapeo Supabase (2026-11-27)
+- **Corrección de Mapeos a snake_case**: Actualizados los `@SerializedName` en `ReportDto`, `StatusUpdateDto` y `PerfilDto` para coincidir exactamente con las columnas reales de PostgreSQL en Supabase (`fecha_creacion`, `autor_email`, `observacion_admin`, etc.).
+- **Remoción de Campos Inexistentes**: Se omitieron campos sintéticos como `autorNombre` o `version` de los DTOs remotos. Se procesan de forma transitoria en la conversión local `toEntity()`.
+- **Nuevo DTO `HistorialReporteDto`**: Implementado endpoint `POST rest/v1/historial_reportes` que se dispara automáticamente al actualizar el estado en `updateReportStatusByAdmin` con el `actor_email` y `estado_anterior`.
 
 ---
 

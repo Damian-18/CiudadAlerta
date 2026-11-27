@@ -17,7 +17,9 @@ data class SupabaseUser(
 )
 
 data class PerfilDto(
-    val id: String,
-    val rol: String?,
-    val nombre: String? = null
+    @com.google.gson.annotations.SerializedName("id") val id: String,
+    @com.google.gson.annotations.SerializedName("email") val email: String?,
+    @com.google.gson.annotations.SerializedName("rol") val rol: String?,
+    @com.google.gson.annotations.SerializedName("nombre") val nombre: String? = null,
+    @com.google.gson.annotations.SerializedName("creado_en") val creadoEn: String? = null
 )

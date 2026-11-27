@@ -25,7 +25,7 @@ interface CiudadAlertaApiService {
     @GET("rest/v1/reportes")
     suspend fun listarReportes(
         @Query("select") select: String = "*",
-        @Query("order") order: String = "fechaCreacion.desc"
+        @Query("order") order: String = "fecha_creacion.desc"
     ): Response<List<ReportDto>>
 
     @GET("rest/v1/reportes")
@@ -43,12 +43,16 @@ interface CiudadAlertaApiService {
         @Body reporte: ReportDto
     ): Response<List<ReportDto>>
 
-    // Actualizar Estado se puede hacer con un PATCH a la misma tabla 'reportes'
     @PATCH("rest/v1/reportes")
     suspend fun actualizarEstado(
         @Query("folio") eqFolio: String,
         @Body statusUpdate: StatusUpdateDto
     ): Response<List<ReportDto>>
+
+    @POST("rest/v1/historial_reportes")
+    suspend fun agregarHistorial(
+        @Body historial: HistorialReporteDto
+    ): Response<Unit>
 
     @DELETE("rest/v1/reportes")
     suspend fun eliminarReporte(@Query("folio") eqFolio: String): Response<Unit>
