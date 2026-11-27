@@ -46,6 +46,9 @@ Fases 1-5 actualizadas. assembleDebug + testDebugUnitTest + lintDebug + assemble
 - La nueva lógica evalúa los folios obtenidos desde Supabase; identifica los folios que existían localmente pero fueron eliminados en la nube, y ejecuta las eliminaciones de `multimedia`, `notificaciones` y `reportes` locales correspondientes.
 - La tabla de `borradores` queda completamente intacta, garantizando la persistencia local de trabajos ciudadanos.
 
+### Resolución de conflictos pre-PR (2026-11-27)
+- Integración de `origin/master` resuelta a favor de `feat/migracion-supabase`. Se mantuvieron las versiones puras de Supabase y se eliminó definitivamente `MockNetworkInterceptor.kt` de la historia al resolver un conflicto `modify/delete`.
+
 ---
 
 ## 🛡️ DICTAMEN DE AUDITORÍA FINAL Y ACEPTACIÓN (11/11 CRITERIOS)
